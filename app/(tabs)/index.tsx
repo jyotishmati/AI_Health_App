@@ -11,6 +11,10 @@ import ProfileScreen1 from '../../components/Profile/profile1';
 import ProfileScreen2 from '../../components/Profile/profile2';
 // import Calendar from '../../components/Home Page/Calendar/calendar';
 import CalendarExpand from '../../components/Home Page/Calendar/calendarexpand';
+import MasterHealthVault from '../../components/Home Page/Master Health/Vault_master_health';
+import ExpandBB from '../../components/Home Page/Blood Bank/expand_BB';
+import DocumentManagerScreen from '../../components/Home Page/Calendar/documents_upload';
+import Upload from '../../components/Home Page/Calendar/upload';
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
@@ -27,6 +31,10 @@ export default function MainNavigator() {
       <Stack.Screen name="Profile2" component={ProfileScreen2} />
       {/* <Stack.Screen name="Calendar" component={Calendar} /> */}
       <Stack.Screen name="CalendarExpand" component={CalendarExpand} />
+      <Stack.Screen name="MasterHealthVault" component={MasterHealthVault} />
+      <Stack.Screen name="ExpandBB" component={ExpandBB} />
+      <Stack.Screen name="DocumentManagerScreen" component={DocumentManagerScreen} />
+      <Stack.Screen name="Upload" component={Upload} />
     </Stack.Navigator>
   );
 }

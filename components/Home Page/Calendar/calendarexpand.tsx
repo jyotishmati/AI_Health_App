@@ -1,7 +1,8 @@
-// import React from "react";
+// import React, { useState } from "react";
 // import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
 // import { useNavigation } from "@react-navigation/native";
 // import { Ionicons } from "@expo/vector-icons";
+// import RNPickerSelect from "react-native-picker-select";
 
 // const getDaysInMonth = (month: number, year: number) => {
 //   return new Date(year, month + 1, 0).getDate();
@@ -14,10 +15,17 @@
 //   const todayDate = today.getDate();
 //   const todayMonth = today.getMonth();
 
+//   const [selectedYear, setSelectedYear] = useState(currentYear);
+
 //   const months = [
 //     "January", "February", "March", "April", "May", "June",
 //     "July", "August", "September", "October", "November", "December",
 //   ];
+
+//   const yearOptions = Array.from({ length: 21 }, (_, i) => ({
+//     label: `${currentYear - 10 + i}`,
+//     value: currentYear - 10 + i,
+//   }));
 
 //   return (
 //     <View style={styles.container}>
@@ -29,15 +37,29 @@
 //         <Text style={styles.headerText}>Calendar</Text>
 //       </View>
 
+//       {/* Year Picker */}
+//       <View style={styles.pickerContainer}>
+//         <Text style={styles.pickerLabel}>Select Year:</Text>
+//         <RNPickerSelect
+//           onValueChange={(year: number) => setSelectedYear(year)}
+//           items={yearOptions}
+//           value={selectedYear}
+//           style={{
+//             inputIOS: styles.picker,
+//             inputAndroid: styles.picker,
+//           }}
+//         />
+//       </View>
+
 //       {/* Scrollable Calendar */}
 //       <ScrollView contentContainerStyle={styles.scrollContainer}>
 //         {months.map((month, monthIndex) => {
-//           const daysInMonth = getDaysInMonth(monthIndex, currentYear);
-//           const firstDay = new Date(currentYear, monthIndex, 1).getDay();
+//           const daysInMonth = getDaysInMonth(monthIndex, selectedYear);
+//           const firstDay = new Date(selectedYear, monthIndex, 1).getDay();
 
 //           return (
 //             <View key={monthIndex} style={styles.monthContainer}>
-//               <Text style={styles.monthTitle}>{month} {currentYear}</Text>
+//               <Text style={styles.monthTitle}>{month} {selectedYear}</Text>
 
 //               {/* Week Days */}
 //               <View style={styles.weekRow}>
@@ -48,19 +70,26 @@
 
 //               {/* Calendar Grid */}
 //               <View style={styles.daysContainer}>
-//                 {Array.from({ length: firstDay }).map((_, i) => (
-//                   <View key={`empty-${i}`} style={styles.emptyDay} />
-//                 ))}
+//   {/* Empty spaces for first week alignment */}
+//   {Array.from({ length: firstDay }).map((_, i) => (
+//     <View key={`empty-${i}`} style={styles.emptyDay} />
+//   ))}
 
-//                 {Array.from({ length: daysInMonth }, (_, day) => {
-//                   const isToday = monthIndex === todayMonth && day + 1 === todayDate;
-//                   return (
-//                     <View key={day} style={[styles.day, isToday && styles.today]}>
-//                       <Text style={[styles.dayText, isToday && styles.todayText]}>{day + 1}</Text>
-//                     </View>
-//                   );
-//                 })}
-//               </View>
+//   {/* Ensure days are grouped in rows of 7 */}
+//   {Array.from({ length: daysInMonth }, (_, index) => {
+//     const dayNumber = index + 1;
+//     const isToday = selectedYear === currentYear && monthIndex === todayMonth && dayNumber === todayDate;
+
+//     return (
+//       <View key={index} style={styles.dayWrapper}>
+//         <View style={[styles.day, isToday && styles.today]}>
+//           <Text style={[styles.dayText, isToday && styles.todayText]}>{dayNumber}</Text>
+//         </View>
+//       </View>
+//     );
+//   })}
+// </View>
+
 //             </View>
 //           );
 //         })}
@@ -91,6 +120,28 @@
 //     fontWeight: "bold",
 //     color: "#0f172a",
 //   },
+//   pickerContainer: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     justifyContent: "center",
+//     paddingVertical: 10,
+//     paddingHorizontal: 16,
+//   },
+//   pickerLabel: {
+//     fontSize: 16,
+//     color: "#1e293b",
+//     marginRight: 10,
+//   },
+//   picker: {
+//     fontSize: 16,
+//     paddingVertical: 8,
+//     paddingHorizontal: 10,
+//     borderWidth: 1,
+//     borderColor: "#ccc",
+//     borderRadius: 5,
+//     color: "#1e293b",
+//     backgroundColor: "#f8fafc",
+//   },
 //   scrollContainer: {
 //     paddingBottom: 20,
 //   },
@@ -116,14 +167,30 @@
 //     fontWeight: "600",
 //     color: "#64748b",
 //   },
+//   // daysContainer: {
+//   //   flexDirection: "row",
+//   //   flexWrap: "wrap",
+//   // },
+//   // emptyDay: {
+//   //   width: 40,
+//   //   height: 40,
+//   // },
 //   daysContainer: {
 //     flexDirection: "row",
 //     flexWrap: "wrap",
+//     width: "100%",
 //   },
+  
+//   dayWrapper: {
+//     width: "14.28%", // 100% divided by 7 days per row
+//     alignItems: "center",
+//   },
+  
 //   emptyDay: {
-//     width: 40,
+//     width: "14.28%", // Ensures empty spaces align with proper grid
 //     height: 40,
 //   },
+  
 //   day: {
 //     width: 40,
 //     height: 40,
@@ -145,6 +212,7 @@
 //     fontWeight: "bold",
 //   },
 // });
+
 
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
@@ -218,26 +286,28 @@ const CalendarScreen = () => {
 
               {/* Calendar Grid */}
               <View style={styles.daysContainer}>
-  {/* Empty spaces for first week alignment */}
-  {Array.from({ length: firstDay }).map((_, i) => (
-    <View key={`empty-${i}`} style={styles.emptyDay} />
-  ))}
+                {/* Empty spaces for first week alignment */}
+                {Array.from({ length: firstDay }).map((_, i) => (
+                  <View key={`empty-${i}`} style={styles.emptyDay} />
+                ))}
 
-  {/* Ensure days are grouped in rows of 7 */}
-  {Array.from({ length: daysInMonth }, (_, index) => {
-    const dayNumber = index + 1;
-    const isToday = selectedYear === currentYear && monthIndex === todayMonth && dayNumber === todayDate;
+                {/* Ensure days are grouped in rows of 7 */}
+                {Array.from({ length: daysInMonth }, (_, index) => {
+                  const dayNumber = index + 1;
+                  const isToday = selectedYear === currentYear && monthIndex === todayMonth && dayNumber === todayDate;
 
-    return (
-      <View key={index} style={styles.dayWrapper}>
-        <View style={[styles.day, isToday && styles.today]}>
-          <Text style={[styles.dayText, isToday && styles.todayText]}>{dayNumber}</Text>
-        </View>
-      </View>
-    );
-  })}
-</View>
-
+                  return (
+                    <View key={index} style={styles.dayWrapper}>
+                      <TouchableOpacity 
+                        style={[styles.day, isToday && styles.today]} 
+                        onPress={() => navigation.navigate("DocumentManagerScreen" as never)}
+                      >
+                        <Text style={[styles.dayText, isToday && styles.todayText]}>{dayNumber}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })}
+              </View>
             </View>
           );
         })}
@@ -315,30 +385,19 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#64748b",
   },
-  // daysContainer: {
-  //   flexDirection: "row",
-  //   flexWrap: "wrap",
-  // },
-  // emptyDay: {
-  //   width: 40,
-  //   height: 40,
-  // },
   daysContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
   },
-  
   dayWrapper: {
     width: "14.28%", // 100% divided by 7 days per row
     alignItems: "center",
   },
-  
   emptyDay: {
     width: "14.28%", // Ensures empty spaces align with proper grid
     height: 40,
   },
-  
   day: {
     width: 40,
     height: 40,

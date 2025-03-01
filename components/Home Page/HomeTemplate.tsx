@@ -5,10 +5,11 @@ import GoldBar from './Gold_bar';
 import Calendar from './Calendar/calendar';
 import Categories from './categories';
 import Articles from './Articles';
-import BloodBank from './BloodBank';
+import BloodBank from './Blood Bank/BloodBank';
 import BloodBankActions from './find_donar_and_campaign';
 import Footer from './footer';
 import WhoOrg from './who_org';
+import HealthVaultCard from './Master Health/master_health_check';
 
 const HomeScreen = () => {
     return (
@@ -25,6 +26,7 @@ const HomeScreen = () => {
                 contentContainerStyle={{ paddingBottom: 20 }} 
                 showsVerticalScrollIndicator={false}
             >
+                 <HealthVaultCard />
                 <Calendar />
                 <Categories />
                 <Articles />
