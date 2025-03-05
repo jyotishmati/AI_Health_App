@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    padding: 18,
+    marginTop: -1,
   },
   header: {
     flexDirection: "row",
@@ -129,11 +130,11 @@ const styles = StyleSheet.create({
     color: "#0F172A",
   },
   underline: {
-    width: "80%",
+    width: "82%",
     height: 1,
     backgroundColor: "#ccc",
     alignSelf: "center",
-    marginVertical: 10, // Adds spacing between title and subtitle
+    marginVertical: 18, // Adds spacing between title and subtitle
   },
   joinSubtitle: {
     textAlign: "center",

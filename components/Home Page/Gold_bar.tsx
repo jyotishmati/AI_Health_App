@@ -20,7 +20,7 @@ export default function VerificationScreen() {
           <TouchableOpacity style={styles.iconWrapper} onPress={() => navigation.navigate('Chatbot' as never)}>
             {chatIcon()}
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconWrapper} onPress={() => console.log("Hashtag Icon Pressed")}>
+          <TouchableOpacity style={styles.iconWrapper} onPress={() => navigation.navigate("Hash" as never)}>
             {hashtagIcon()}
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconWrapper} onPress={() => console.log("Notification Icon Pressed")}>
@@ -74,6 +74,8 @@ export default function VerificationScreen() {
       paddingHorizontal: 16,
       paddingVertical: 10,
       height: 78,
+      paddingTop: 40,
+      paddingBottom: 40,
     },
     goldButton: {
       width: 95,

@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     backgroundColor: "#023047", // Match background with card
-    paddingVertical: 5, // Prevent excess space
   },
   card: {
     flexDirection: "row",
@@ -28,21 +27,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#023047",
     paddingHorizontal: 16,
-    minHeight: 85, // Reduced height
+    minHeight: 80, // Reduced height
     width: "100%",
   },
   text: {
     color: "white",
     fontSize: 18, // Reduced text size
     fontWeight: "bold",
-    marginTop: 16,
+    textAlign: "center",
   },
   button: {
     backgroundColor: "white",
     paddingHorizontal: 28,
     paddingVertical: 5,
     borderRadius: 20,
-    marginTop: 20,
+    alignContent: "center",
   },
   buttonText: {
     color: "#000",

@@ -37,9 +37,11 @@ const NewsCard = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -1,
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 10,
+    marginBottom: -20,
   },
   horizontalBar: {
     height: 2,
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   headerText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     color: "#111827",
   },
@@ -63,6 +65,8 @@ const styles = StyleSheet.create({
     color: "#6B7280",
   },
   card: {
+    marginTop: 10,
+    height: 280,
     backgroundColor: "#fff",
     borderRadius: 12,
     overflow: "hidden",
@@ -74,12 +78,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 150,
+    height: 180,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },
   textContainer: {
-    padding: 12,
+    padding: 15,
   },
   title: {
     fontSize: 14,

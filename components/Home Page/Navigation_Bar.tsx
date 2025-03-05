@@ -21,7 +21,7 @@ const SearchBar = () => {
 const styles = StyleSheet.create({
   outerContainer: {
     width: 390,
-    height: 96,
+    height: 85,
     flexShrink: 0,
     backgroundColor: '#FAFAFA',
     marginTop: 3,

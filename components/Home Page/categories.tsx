@@ -44,7 +44,8 @@ const CategoriesGrid: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: "white",
+    backgroundColor: "#FFF",
+    marginTop: -1,
   },
   header: {
     flexDirection: "row",

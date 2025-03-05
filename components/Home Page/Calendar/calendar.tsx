@@ -1,8 +1,11 @@
 // import React, { useState, useEffect } from "react";
 // import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
-// import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay } from "date-fns";
+// import { useNavigation } from "@react-navigation/native"; // For navigation
+// import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
+// import { Ionicons } from "@expo/vector-icons"; // For the expand icon
 
 // const HorizontalCalendar: React.FC = () => {
+//   const navigation = useNavigation(); // Navigation hook
 //   const [currentDate, setCurrentDate] = useState(new Date());
 //   const [daysInMonth, setDaysInMonth] = useState<Date[]>([]);
 
@@ -12,10 +15,20 @@
 //     setDaysInMonth(eachDayOfInterval({ start: firstDay, end: lastDay }));
 //   }, [currentDate]);
 
+//   // Function to handle expand button press
+//   const handleExpandPress = () => {
+//     navigation.navigate("CalendarExpand" as never); // Navigate to the full calendar screen
+//   };
+
 //   return (
 //     <View style={styles.container}>
-//       {/* Month & Year */}
-//       <Text style={styles.monthText}>{format(currentDate, "MMMM yyyy")}</Text>
+//       {/* Header: Month, Year & Expand Button */}
+//       <View style={styles.header}>
+//         <Text style={styles.monthText}>{format(currentDate, "MMMM yyyy")}</Text>
+//         <TouchableOpacity onPress={handleExpandPress} style={styles.expandButton}>
+//           <Ionicons name="expand-outline" size={20} color="#0F172A" />
+//         </TouchableOpacity>
+//       </View>
 
 //       {/* Horizontal Scrollable Dates */}
 //       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollContainer}>
@@ -40,20 +53,28 @@
 // const styles = StyleSheet.create({
 //   container: {
 //     padding: 16,
-//     backgroundColor: "#F8FAFC",
+//     backgroundColor: "#FAFAFA",
+//   },
+//   header: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     marginBottom: 10,
 //   },
 //   monthText: {
 //     fontSize: 18,
 //     fontWeight: "bold",
 //     color: "#0F172A",
-//     marginBottom: 10,
+//   },
+//   expandButton: {
+//     padding: 8,
 //   },
 //   scrollContainer: {
 //     flexDirection: "row",
 //   },
 //   dayContainer: {
 //     alignItems: "center",
-//     padding: 10,
+//     padding: 8,
 //     marginHorizontal: 5,
 //     borderRadius: 20,
 //     backgroundColor: "#E2E8F0",
@@ -77,11 +98,12 @@
 
 // export default HorizontalCalendar;
 
+
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // For navigation
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns";
-import { Ionicons } from "@expo/vector-icons"; // For the expand icon
+import { FontAwesome, Ionicons } from "@expo/vector-icons"; // For the expand icon
 
 const HorizontalCalendar: React.FC = () => {
   const navigation = useNavigation(); // Navigation hook
@@ -105,7 +127,7 @@ const HorizontalCalendar: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.monthText}>{format(currentDate, "MMMM yyyy")}</Text>
         <TouchableOpacity onPress={handleExpandPress} style={styles.expandButton}>
-          <Ionicons name="expand-outline" size={20} color="#0F172A" />
+          <FontAwesome name="expand" size={16} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
 
@@ -131,8 +153,8 @@ const HorizontalCalendar: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    backgroundColor: "#F8FAFC",
+    padding: 20,
+    backgroundColor: "#FAFAFA",
   },
   header: {
     flexDirection: "row",
@@ -141,19 +163,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   monthText: {
-    fontSize: 18,
+    fontSize: 22,
+    fontFamily: "Poppins",
     fontWeight: "bold",
     color: "#0F172A",
   },
   expandButton: {
     padding: 8,
+    backgroundColor: "#0F172A", // Navy blue background
+    borderRadius: 20, // Circular button
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
   },
   scrollContainer: {
     flexDirection: "row",
   },
   dayContainer: {
     alignItems: "center",
-    padding: 10,
+    padding: 8,
     marginHorizontal: 5,
     borderRadius: 20,
     backgroundColor: "#E2E8F0",
@@ -176,4 +205,3 @@ const styles = StyleSheet.create({
 });
 
 export default HorizontalCalendar;
-

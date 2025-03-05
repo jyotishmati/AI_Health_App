@@ -15,6 +15,7 @@ import MasterHealthVault from '../../components/Home Page/Master Health/Vault_ma
 import ExpandBB from '../../components/Home Page/Blood Bank/expand_BB';
 import DocumentManagerScreen from '../../components/Home Page/Calendar/documents_upload';
 import Upload from '../../components/Home Page/Calendar/upload';
+import Hash from '../../components/Home Page/Hash'
 const Stack = createNativeStackNavigator();
 
 export default function MainNavigator() {
@@ -35,6 +36,7 @@ export default function MainNavigator() {
       <Stack.Screen name="ExpandBB" component={ExpandBB} />
       <Stack.Screen name="DocumentManagerScreen" component={DocumentManagerScreen} />
       <Stack.Screen name="Upload" component={Upload} />
+      <Stack.Screen name='Hash' component={Hash} />
     </Stack.Navigator>
   );
 }

@@ -6,10 +6,10 @@ import Calendar from './Calendar/calendar';
 import Categories from './categories';
 import Articles from './Articles';
 import BloodBank from './Blood Bank/BloodBank';
-import BloodBankActions from './find_donar_and_campaign';
 import Footer from './footer';
 import WhoOrg from './who_org';
 import HealthVaultCard from './Master Health/master_health_check';
+import HealthCard from './hello';
 
 const HomeScreen = () => {
     return (
@@ -26,12 +26,12 @@ const HomeScreen = () => {
                 contentContainerStyle={{ paddingBottom: 20 }} 
                 showsVerticalScrollIndicator={false}
             >
-                 <HealthVaultCard />
+                <HealthCard />
+                <HealthVaultCard />
                 <Calendar />
                 <Categories />
                 <Articles />
                 <BloodBank />
-                <BloodBankActions />
                 <WhoOrg />
             </ScrollView>
             <Footer />
