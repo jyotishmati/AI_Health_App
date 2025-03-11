@@ -7,7 +7,7 @@ type Props = NativeStackScreenProps<any, 'Welcome3'>;
 export default function WelcomeScreen3({ navigation }: Props) {
   return (
     <WelcomeTemplate
-      imageSource={require('../../assets/images/page1.jpg')}
+      imageSource={require('../../assets/images/page3.jpg')}
       title="Secure & Trusted"
       subtitle="Your data is safe, your health is in good hands"
       backgroundColor="white"

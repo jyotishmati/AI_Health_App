@@ -3,13 +3,20 @@ import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from "react-nati
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import RNPickerSelect from "react-native-picker-select";
+import { RootStackParamList } from "./types"; // adjust the path as needed
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type CalendarScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "CalendarScreen"
+>;
 
 const getDaysInMonth = (month: number, year: number) => {
   return new Date(year, month + 1, 0).getDate();
 };
 
 const CalendarScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<CalendarScreenNavigationProp>();
   const currentYear = new Date().getFullYear();
   const today = new Date();
   const todayDate = today.getDate();
@@ -75,18 +82,24 @@ const CalendarScreen = () => {
                   <View key={`empty-${i}`} style={styles.emptyDay} />
                 ))}
 
-                {/* Ensure days are grouped in rows of 7 */}
+                {/* Render days of the month */}
                 {Array.from({ length: daysInMonth }, (_, index) => {
                   const dayNumber = index + 1;
                   const isToday = selectedYear === currentYear && monthIndex === todayMonth && dayNumber === todayDate;
+                  // Construct a date string, e.g., "2025-03-10"
+                  const dateString = `${selectedYear}-${String(monthIndex + 1).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
 
                   return (
                     <View key={index} style={styles.dayWrapper}>
                       <TouchableOpacity 
                         style={[styles.day, isToday && styles.today]} 
-                        onPress={() => navigation.navigate("DocumentManagerScreen" as never)}
+                        onPress={() =>
+                          navigation.navigate("DocumentManagerScreen", { date: dateString })
+                        }
                       >
-                        <Text style={[styles.dayText, isToday && styles.todayText]}>{dayNumber}</Text>
+                        <Text style={[styles.dayText, isToday && styles.todayText]}>
+                          {dayNumber}
+                        </Text>
                       </TouchableOpacity>
                     </View>
                   );
@@ -103,116 +116,28 @@ const CalendarScreen = () => {
 export default CalendarScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffffff",
-    paddingTop: 40,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 10,
-  },
-  backButton: {
-    marginRight: 10,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#0f172a",
-  },
+  container: { flex: 1, backgroundColor: "#ffffff", paddingTop: 40 },
+  header: { flexDirection: "row", alignItems: "center", paddingHorizontal: 16, paddingBottom: 10 },
+  backButton: { marginRight: 10 },
+  headerText: { fontSize: 18, fontWeight: "bold", color: "#0f172a" },
   pickerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    padding: 12,
-    borderRadius: 10,
-    marginHorizontal: 16,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3, // Android shadow
-    borderWidth: 1,
-    borderColor: "#e2e8f0",
-    width: 250,
+    flexDirection: "row", alignItems: "center", backgroundColor: "#ffffff", padding: 12,
+    borderRadius: 10, marginHorizontal: 16, marginBottom: 10, shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4,
+    elevation: 3, borderWidth: 1, borderColor: "#e2e8f0", width: 250,
   },
-  
-  pickerLabel: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#1e293b",
-    marginRight: 10,
-  },
-  
-  picker: {
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#cbd5e1",
-    borderRadius: 6,
-    backgroundColor: "#f1f5f9",
-    color: "#1e293b",
-    width: 130,
-  },
-  
-  scrollContainer: {
-    paddingBottom: 20,
-  },
-  monthContainer: {
-    paddingHorizontal: 16,
-    marginBottom: 20,
-  },
-  monthTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1e293b",
-    marginBottom: 10,
-  },
-  weekRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 5,
-  },
-  weekDay: {
-    width: 40,
-    textAlign: "center",
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#64748b",
-  },
-  daysContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "100%",
-  },
-  dayWrapper: {
-    width: "14.28%", // 100% divided by 7 days per row
-    alignItems: "center",
-  },
-  emptyDay: {
-    width: "14.28%", // Ensures empty spaces align with proper grid
-    height: 40,
-  },
-  day: {
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 2,
-    borderRadius: 20,
-    backgroundColor: "#f1f5f9",
-  },
-  today: {
-    backgroundColor: "#0f172a",
-  },
-  dayText: {
-    fontSize: 14,
-    color: "#334155",
-  },
-  todayText: {
-    color: "#ffffff",
-    fontWeight: "bold",
-  },
+  pickerLabel: { fontSize: 16, fontWeight: "600", color: "#1e293b", marginRight: 10 },
+  picker: { fontSize: 16, borderWidth: 1, borderColor: "#cbd5e1", borderRadius: 6, backgroundColor: "#f1f5f9", color: "#1e293b", width: 130 },
+  scrollContainer: { paddingBottom: 20 },
+  monthContainer: { paddingHorizontal: 16, marginBottom: 20 },
+  monthTitle: { fontSize: 20, fontWeight: "bold", color: "#1e293b", marginBottom: 10 },
+  weekRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 5 },
+  weekDay: { width: 40, textAlign: "center", fontSize: 14, fontWeight: "600", color: "#64748b" },
+  daysContainer: { flexDirection: "row", flexWrap: "wrap", width: "100%" },
+  dayWrapper: { width: "14.28%", alignItems: "center" },
+  emptyDay: { width: "14.28%", height: 40 },
+  day: { width: 40, height: 40, justifyContent: "center", alignItems: "center", margin: 2, borderRadius: 20, backgroundColor: "#f1f5f9" },
+  today: { backgroundColor: "#0f172a" },
+  dayText: { fontSize: 14, color: "#334155" },
+  todayText: { color: "#ffffff", fontWeight: "bold" },
 });

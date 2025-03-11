@@ -7,7 +7,7 @@ type Props = NativeStackScreenProps<any, 'Welcome2'>;
 export default function WelcomeScreen2({ navigation }: Props) {
   return (
     <WelcomeTemplate
-      imageSource={require('../../assets/images/page1.jpg')}
+      imageSource={require('../../assets/images/page2.png')}
       title="Personalized Care, Anytime"
       subtitle="Access doctors, track health, and manage your records seamlessly"
       backgroundColor="#0F172A"

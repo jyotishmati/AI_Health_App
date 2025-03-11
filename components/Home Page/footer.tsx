@@ -1,89 +1,13 @@
-// import React from "react";
-// import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-// import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
-
-// const BottomNavBar = () => {
-//   return (
-//     <View style={styles.container}>
-//       <TouchableOpacity style={styles.button}>
-//         <Ionicons name="home-outline" size={22} color="#6B7280" />
-//         <Text style={styles.text}>Home</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity style={styles.button}>
-//         <MaterialIcons name="local-hospital" size={22} color="#6B7280" />
-//         <Text style={styles.text}>Doctors</Text>
-//       </TouchableOpacity>
-
-//       <View style={styles.centerButton}>
-//         <FontAwesome5 name="star" size={24} color="#6B7280" />
-//       </View>
-
-//       <TouchableOpacity style={styles.button}>
-//         <MaterialIcons name="analytics" size={22} color="#6B7280" />
-//         <Text style={styles.text}>Analytics</Text>
-//       </TouchableOpacity>
-
-//       <TouchableOpacity style={styles.button}>
-//         <FontAwesome5 name="user-circle" size={22} color="#0E3A5F" />
-//         <Text style={[styles.text, styles.activeText]}>Profile</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//     backgroundColor: "#fff",
-//     paddingVertical: 10,
-//     paddingHorizontal: 15,
-//     borderTopLeftRadius: 20,
-//     borderTopRightRadius: 20,
-//     shadowColor: "#000",
-//     shadowOffset: { width: 0, height: -2 },
-//     shadowOpacity: 0.1,
-//     shadowRadius: 4,
-//     elevation: 5,
-//   },
-//   button: {
-//     alignItems: "center",
-//     justifyContent: "center",
-//     flex: 1,
-//   },
-//   centerButton: {
-//     backgroundColor: "#F3F4F6",
-//     width: 50,
-//     height: 50,
-//     borderRadius: 25,
-//     alignItems: "center",
-//     justifyContent: "center",
-//     marginBottom: 20, // Move it up slightly
-//   },
-//   text: {
-//     fontSize: 12,
-//     color: "#6B7280",
-//     marginTop: 4,
-//   },
-//   activeText: {
-//     color: "#0E3A5F",
-//     fontWeight: "bold",
-//   },
-// });
-
-// export default BottomNavBar;
-
-
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
 import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window"); // Get screen width
 const barWidth = width * 0.3; // Bottom indicator width
 
-const BottomNavBar = () => {
+export default function VerificationScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -97,16 +21,20 @@ const BottomNavBar = () => {
           <Text style={styles.text}>Doctors</Text>
         </TouchableOpacity>
 
-        <View style={styles.centerButton}>
-          <FontAwesome5 name="star" size={24} color="#6B7280" />
-        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('Insurance' as never)}>
+          <View style={styles.centerButton}>
+              <FontAwesome5 name="star" size={24} color="#6B7280" />
+          </View>
+      </TouchableOpacity>
+
+       
 
         <TouchableOpacity style={styles.button}>
           <MaterialIcons name="analytics" size={22} color="#6B7280" />
           <Text style={styles.text}>Analytics</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FullProfile' as never)}>
           <FontAwesome5 name="user-circle" size={22} color="#0E3A5F" />
           <Text style={[styles.text, styles.activeText]}>Profile</Text>
         </TouchableOpacity>
@@ -176,4 +104,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomNavBar;

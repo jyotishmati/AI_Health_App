@@ -121,6 +121,7 @@ const HorizontalCalendar: React.FC = () => {
     navigation.navigate("CalendarExpand" as never); // Navigate to the full calendar screen
   };
 
+  
   return (
     <View style={styles.container}>
       {/* Header: Month, Year & Expand Button */}

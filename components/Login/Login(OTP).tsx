@@ -21,7 +21,7 @@ export default function VerificationScreen() {
             <View style={styles.contentContainer}>
               <Text style={styles.title}>Verification Code</Text>
               <Text style={styles.subtitle}>
-                Please enter verification code, we sent it to your Number: +91 9876543210
+                Please enter verification code, we sent it to your Email: 
               </Text>
               
               <TextInput
@@ -46,7 +46,7 @@ export default function VerificationScreen() {
             </View>
             
             <View style={styles.imageContainer}>
-              <Image source={require('../../assets/images/login.png')} style={styles.image} resizeMode="contain" />
+              <Image source={require('../../assets/images/OTP.png')} style={styles.image} resizeMode="contain" />
             </View>
           </ScrollView>
           
