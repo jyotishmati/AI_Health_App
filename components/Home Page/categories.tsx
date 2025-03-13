@@ -1,6 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+
+const { width } = Dimensions.get("window");
+const scale = (size: number) => (width / 375) * size;
 
 const categories = [
   { id: "1", name: "Heart", icon: "heart-outline" },
@@ -31,7 +34,11 @@ const CategoriesGrid: React.FC = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.categoryButton}>
-            <Ionicons name={item.icon as keyof typeof Ionicons.glyphMap} size={24} color="#0F172A" />
+            <Ionicons
+              name={item.icon as keyof typeof Ionicons.glyphMap}
+              size={scale(24)}
+              color="#0F172A"
+            />
             <Text style={styles.categoryText}>{item.name}</Text>
           </TouchableOpacity>
         )}
@@ -43,38 +50,39 @@ const CategoriesGrid: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    paddingHorizontal: scale(8),
+    paddingVertical: scale(16),
     backgroundColor: "#FFF",
-    marginTop: -1,
+    marginTop: scale(-1),
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: scale(16),
   },
   title: {
-    fontSize: 18,
+    fontSize: scale(18),
     fontWeight: "bold",
     color: "#1E293B",
   },
   seeAll: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: "#64748B",
   },
   categoryButton: {
-    width: 78,
-    height: 80,
+    width: scale(78),
+    height: scale(80),
     backgroundColor: "#F1F5F9",
-    borderRadius: 16,
+    borderRadius: scale(16),
     justifyContent: "center",
     alignItems: "center",
-    margin: 6,
+    margin: scale(6),
   },
   categoryText: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: "#334155",
-    marginTop: 4,
+    marginTop: scale(4),
   },
 });
 

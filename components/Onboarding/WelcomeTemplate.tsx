@@ -44,19 +44,19 @@
 //         >
 //           <Text style={{ color: backgroundColor, textAlign: 'center' }}>Next</Text>
 //         </TouchableOpacity>
-//         <TouchableOpacity style={{ marginTop: 16 }}>
-//           <Text style={{ color: skipColor, textAlign: 'center' }}>Skip</Text>
+//         <TouchableOpacity style={{ marginTop: 16, marginBottom: 20 }}>
+//           <Text style={{ color: skipColor, textAlign: 'center', fontSize: 16 }}>Skip</Text>
 //         </TouchableOpacity>
 //       </View>
-//       <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 60, backgroundColor, alignItems: 'center', justifyContent: 'center' }}>
-//         <View style={{ width: 200, height: 5, backgroundColor: '#9CA3AF', borderRadius: 10}} />
+//       <View style={{ position: 'absolute', bottom: 10, width: '100%', height: 40, backgroundColor, alignItems: 'center', justifyContent: 'center' }}>
+//         <View style={{ width: 200, height: 5, backgroundColor: '#9CA3AF', borderRadius: 10 }} />
 //       </View>
 //     </View>
 //   );
 // }
 
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 interface WelcomeTemplateProps {
   imageSource: any;
@@ -69,6 +69,9 @@ interface WelcomeTemplateProps {
   onNext: () => void;
 }
 
+const { width } = Dimensions.get('window');
+const scale = (size: number) => (width / 375) * size; // using 375 as the base width
+
 export default function WelcomeTemplate({
   imageSource,
   title,
@@ -80,34 +83,53 @@ export default function WelcomeTemplate({
   onNext,
 }: WelcomeTemplateProps) {
   return (
-    <View style={{ flex: 1, backgroundColor, alignItems: 'center', justifyContent: 'center' }}>
-      <View style={{ width: '100%', height: '65%', marginTop: -75, paddingRight: 30 }}>
-        <Image
-          source={imageSource}
-          style={{ width: '100%', height: '100%', borderBottomRightRadius: 75 }}
-          resizeMode="cover"
-        />
-      </View>
-      <View style={{ alignItems: 'center', marginTop: 40 }}>
-        <Text style={{ fontSize: 25, fontWeight: 'bold', color: titleColor, marginBottom: 6 }}>
-          {title}
-        </Text>
-        <Text style={{ color: titleColor, textAlign: 'center', marginBottom: 24 }}>
-          {subtitle}
-        </Text>
-        <TouchableOpacity
-          style={{ backgroundColor: buttonColor, borderRadius: 9999, marginTop: 24, paddingHorizontal: 32, paddingVertical: 12, width: 150 }}
-          onPress={onNext}
+    <SafeAreaView style={{ flex: 1, backgroundColor }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: '100%', height: '65%', marginTop: -scale(75), paddingRight: scale(30) }}>
+          <Image
+            source={imageSource}
+            style={{ width: '100%', height: '100%', borderBottomRightRadius: scale(75) }}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={{ alignItems: 'center', marginTop: scale(40) }}>
+          <Text style={{ fontSize: scale(25), fontWeight: 'bold', color: titleColor, marginBottom: scale(6) }}>
+            {title}
+          </Text>
+          <Text style={{ color: titleColor, textAlign: 'center', marginBottom: scale(24) }}>
+            {subtitle}
+          </Text>
+          <TouchableOpacity
+            style={{
+              backgroundColor: buttonColor,
+              borderRadius: scale(9999),
+              marginTop: scale(24),
+              paddingHorizontal: scale(32),
+              paddingVertical: scale(12),
+              width: scale(150),
+            }}
+            onPress={onNext}
+          >
+            <Text style={{ color: backgroundColor, textAlign: 'center' }}>Next</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ marginTop: scale(16), marginBottom: scale(20) }}>
+            <Text style={{ color: skipColor, textAlign: 'center', fontSize: scale(16) }}>Skip</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: scale(10),
+            width: '100%',
+            height: scale(40),
+            backgroundColor,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <Text style={{ color: backgroundColor, textAlign: 'center' }}>Next</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginTop: 16, marginBottom: 20 }}>
-          <Text style={{ color: skipColor, textAlign: 'center', fontSize: 16 }}>Skip</Text>
-        </TouchableOpacity>
+          <View style={{ width: scale(200), height: scale(5), backgroundColor: '#9CA3AF', borderRadius: scale(10) }} />
+        </View>
       </View>
-      <View style={{ position: 'absolute', bottom: 10, width: '100%', height: 40, backgroundColor, alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ width: 200, height: 5, backgroundColor: '#9CA3AF', borderRadius: 10 }} />
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }

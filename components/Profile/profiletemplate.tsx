@@ -26,7 +26,7 @@
 //   label: string;
 //   placeholder: string;
 //   isDropdown?: boolean;
-//   isDatePicker?: boolean; // NEW PROPERTY for DOB Picker
+//   isDatePicker?: boolean; // For DOB Picker
 //   options?: string[];
 // }
 
@@ -62,8 +62,12 @@
 //       <Text style={[styles.title, { fontSize: titleFontSize }]}>{title}</Text>
 //       <Text style={styles.stepText}>Complete {step}</Text>
 
-//       {/* Form Fields */}
-//       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.formContainer}>
+//       {/* Scrollable area for all form fields, Next button, and bottom bar */}
+//       <ScrollView
+//         showsVerticalScrollIndicator={false}
+//         contentContainerStyle={styles.scrollContent}
+//       >
+//         {/* Form Fields */}
 //         {fields.map((field, index) => (
 //           <View key={index} style={styles.inputContainer}>
 //             <Text style={[styles.label, { fontSize: dynamicFontSize }]}>{field.label}</Text>
@@ -103,31 +107,38 @@
 //             )}
 //           </View>
 //         ))}
+
+//         {/* Date Picker Modal (for DOB) */}
+//         {showDatePicker && (
+//           <DateTimePicker
+//             value={selectedDate || new Date()}
+//             mode="date"
+//             display={Platform.OS === "ios" ? "spinner" : "default"}
+//             onChange={handleDateChange}
+//             maximumDate={new Date()} // Prevent future dates
+//           />
+//         )}
+
+//         {/* Next Button at the bottom of the ScrollView */}
+//         {nextScreen && (
+//           <TouchableOpacity
+//             style={[styles.nextButton, { height: buttonHeight, paddingVertical: dynamicPadding }]}
+//             onPress={() => navigation.navigate(nextScreen as never)}
+//           >
+//             <Text style={styles.nextButtonText}>Next</Text>
+//           </TouchableOpacity>
+//         )}
+
+//         {/* Bottom Bar */}
+//         <View style={styles.bottomBar}>
+//           <View style={styles.bottomIndicator} />
+//         </View>
 //       </ScrollView>
-
-//       {/* Date Picker Modal */}
-//       {showDatePicker && (
-//         <DateTimePicker
-//           value={selectedDate || new Date()} // Default to current date
-//           mode="date"
-//           display={Platform.OS === "ios" ? "spinner" : "default"}
-//           onChange={handleDateChange}
-//           maximumDate={new Date()} // Prevent future dates
-//         />
-//       )}
-
-//       {/* Next Button */}
-//       {nextScreen && (
-//         <TouchableOpacity
-//           style={[styles.nextButton, { height: buttonHeight, paddingVertical: dynamicPadding }]}
-//           onPress={() => navigation.navigate(nextScreen as never)}
-//         >
-//           <Text style={styles.nextButtonText}>Next</Text>
-//         </TouchableOpacity>
-//       )}
 //     </View>
 //   );
 // };
+
+// export default ProfileForm;
 
 // const styles = StyleSheet.create({
 //   container: {
@@ -146,9 +157,13 @@
 //     marginBottom: height * 0.02,
 //     textAlign: "center",
 //   },
-//   formContainer: {
-//     paddingBottom: height * 0.05,
+
+//   /* ScrollView content container: 
+//      gives enough padding at the bottom so the user can see the last items clearly. */
+//   scrollContent: {
+//     paddingBottom: 40, // Add extra space so Next button & bottom bar are visible
 //   },
+
 //   inputContainer: {
 //     marginBottom: height * 0.025,
 //   },
@@ -178,7 +193,7 @@
 //   datePicker: {
 //     flexDirection: "row",
 //     alignItems: "center",
-//     justifyContent: "space-between", // Align icon to the right
+//     justifyContent: "space-between", // icon on the right
 //     borderWidth: 1,
 //     borderColor: "#ccc",
 //     borderRadius: 10,
@@ -190,23 +205,36 @@
 //     color: "#000",
 //   },
 //   icon: {
-//     marginLeft: 10, // Add space between text and icon
+//     marginLeft: 10,
 //   },
+
+//   /* Next Button */
 //   nextButton: {
-//     backgroundColor: "#003366",
+//     backgroundColor: "#002D3D",
 //     borderRadius: 10,
 //     alignItems: "center",
 //     justifyContent: "center",
-//     marginBottom: height * 0.02,
+//     marginTop: 20,
 //   },
 //   nextButtonText: {
 //     color: "white",
 //     fontSize: 16,
 //     fontWeight: "bold",
 //   },
-// });
 
-// export default ProfileForm;
+//   /* Bottom Bar */
+//   bottomBar: {
+//     marginTop: 40,
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+//   bottomIndicator: {
+//     width: 200,
+//     height: 5,
+//     borderRadius: 5,
+//     backgroundColor: "#9CA3AF",
+//   },
+// });
 
 
 import React, { useState } from "react";
@@ -226,6 +254,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
+const scale = (size: number) => (width / 375) * size;
 
 // Dynamic font sizes & layout adjustments
 const dynamicFontSize = width > 400 ? 18 : 16;
@@ -283,9 +312,12 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ title, step, fields, nextScre
           <View key={index} style={styles.inputContainer}>
             <Text style={[styles.label, { fontSize: dynamicFontSize }]}>{field.label}</Text>
 
-            {/* Date of Birth Picker */}
             {field.isDatePicker ? (
-              <TouchableOpacity style={styles.datePicker} onPress={() => setShowDatePicker(true)}>
+              /* Date of Birth Picker */
+              <TouchableOpacity
+                style={[styles.inputBox, styles.datePicker]}
+                onPress={() => setShowDatePicker(true)}
+              >
                 <Text style={styles.dateText}>
                   {selectedDate ? selectedDate.toDateString() : field.placeholder}
                 </Text>
@@ -293,7 +325,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ title, step, fields, nextScre
               </TouchableOpacity>
             ) : field.isDropdown ? (
               /* Dropdown Picker */
-              <View>
+              <View style={styles.inputBox}>
                 <Picker
                   selectedValue={selectedValues[field.label] || ""}
                   onValueChange={(value) => handleDropdownChange(field.label, value)}
@@ -307,7 +339,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ title, step, fields, nextScre
                 </Picker>
               </View>
             ) : (
-              /* Regular Input */
+              /* Regular Text Input */
               <View style={styles.inputBox}>
                 <TextInput
                   placeholder={field.placeholder}
@@ -372,7 +404,7 @@ const styles = StyleSheet.create({
   /* ScrollView content container: 
      gives enough padding at the bottom so the user can see the last items clearly. */
   scrollContent: {
-    paddingBottom: 40, // Add extra space so Next button & bottom bar are visible
+    paddingBottom: scale(40),
   },
 
   inputContainer: {
@@ -381,68 +413,66 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: "500",
     color: "#333",
-    marginBottom: 6,
+    marginBottom: scale(6),
   },
+
+  /* Common box style for text input & picker */
   inputBox: {
     borderWidth: 1,
     borderColor: "#ccc",
-    borderRadius: 10,
-    padding: 12,
+    borderRadius: scale(10),
+    padding: scale(12),
     backgroundColor: "#F8F8F8",
   },
   input: {
     color: "#000",
   },
+
+  /* We keep the picker style minimal so that 
+     the container's border shows on both iOS and Android */
   picker: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    width: "100%",
-    height: 50,
-    borderRadius: 10,
-    backgroundColor: "#F8F8F8",
+    flex: 1,
+    color: "#000",
   },
+
+  /* Date of Birth field merges inputBox styling */
   datePicker: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between", // icon on the right
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    padding: 12,
-    backgroundColor: "#F8F8F8",
   },
   dateText: {
-    fontSize: 16,
+    fontSize: scale(16),
     color: "#000",
   },
   icon: {
-    marginLeft: 10,
+    marginLeft: scale(10),
   },
 
   /* Next Button */
   nextButton: {
     backgroundColor: "#002D3D",
-    borderRadius: 10,
+    borderRadius: scale(10),
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: scale(20),
   },
   nextButtonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: scale(16),
     fontWeight: "bold",
   },
 
   /* Bottom Bar */
   bottomBar: {
-    marginTop: 40,
+    marginTop: scale(40),
     alignItems: "center",
     justifyContent: "center",
   },
   bottomIndicator: {
-    width: 200,
-    height: 5,
-    borderRadius: 5,
+    width: scale(200),
+    height: scale(5),
+    borderRadius: scale(5),
     backgroundColor: "#9CA3AF",
   },
 });
